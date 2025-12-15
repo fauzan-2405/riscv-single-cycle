@@ -24,3 +24,15 @@
 | ORI         | I    | 0010011     | 110    | –       | OR immediate               |
 | SW          | S    | 0100011     | 010    | –       | Store word                 |
 | SLTIU       | I    | 0010011     | 011    | –       | Set less than imm unsigned |
+
+Machine code from Venus based on test_vector.asm :
+0x00100293
+0x00000313
+0x00B00393
+0x0072C463
+0x00000013
+0x00530333
+0x00128293
+0xFE72C8E3
+0x00A00513
+0x00000073
