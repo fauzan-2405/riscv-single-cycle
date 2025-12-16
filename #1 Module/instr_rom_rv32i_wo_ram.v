@@ -1,5 +1,5 @@
 
-module instr_rom_rv32i (
+module instr_rom_rv32i_wo_ram (
     input wire [31:0] ADDR, // byte address dari PC
     output wire [31:0] INSTR // instruksi 32-bit
 );
