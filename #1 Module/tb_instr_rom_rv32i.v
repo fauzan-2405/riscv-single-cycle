@@ -4,14 +4,14 @@ module tb_instr_rom_rv32i;
     localparam CLK_PERIOD = 10;
 
     reg         clock;
-    reg  [31:0] instr_addr;
-    wire [31:0] instr_out;
+    reg  [31:0] PC;
+    wire [31:0] INSTR;
 
     // DUT
     instr_rom_rv32i dut (
         .clock      (clock),
-        .instr_addr (instr_addr),
-        .instr_out  (instr_out)
+        .PC (PC),
+        .INSTR  (INSTR)
     );
 
     initial begin
@@ -24,7 +24,7 @@ module tb_instr_rom_rv32i;
         $display("Time\tPC\t\tInstruction");
 
         // Start at PC = 0
-        instr_addr = 32'h0000_0000;
+        PC = 32'h0000_0000;
 
         // Wait a few cycles
         repeat (2) @(posedge clock);
@@ -32,7 +32,7 @@ module tb_instr_rom_rv32i;
         // Fetch first 16 instructions
         repeat (16) begin
             @(posedge clock);
-            instr_addr = instr_addr + 4; // RISC-V PC += 4
+            PC = PC + 4; // RISC-V PC += 4
         end
 
         // Wait for last read
@@ -48,8 +48,8 @@ module tb_instr_rom_rv32i;
     always @(posedge clock) begin
         $display("%0t\t0x%08h\t0x%08h",
                  $time,
-                 instr_addr,
-                 instr_out);
+                 PC,
+                 INSTR);
     end
 
 endmodule

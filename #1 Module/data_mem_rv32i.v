@@ -51,9 +51,9 @@ module data_mem_rv32i (
         .ECC_MODE            ("no_ecc")
     ) ram (
         .clka   (clock),
-        .wea    (be & {4{cu_store}})
+        .wea    (be & {4{cu_store}}),
         .addra  (waddr),
-        .dina   (wr_data_aligned)
+        .dina   (wr_data_aligned),
         .ena    (1'b1),
         .rsta   (1'b0),
         .regcea (1'b1),
