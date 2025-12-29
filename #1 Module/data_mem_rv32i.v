@@ -13,10 +13,10 @@ module data_mem_rv32i (
     always @* begin
         case (cu_storetype)
             2'b00: case (dmem_addr[1:0]) // SB
-            2'b00: be = 4'b0001;
-            2'b01: be = 4'b0010;
-            2'b10: be = 4'b0100;
-            default: be = 4'b1000;
+                2'b00: be = 4'b0001;
+                2'b01: be = 4'b0010;
+                2'b10: be = 4'b0100;
+                default: be = 4'b1000;
             endcase
             2'b01: be = (dmem_addr[1]) ? 4'b1100 : 4'b0011; // SH
             2'b10: be = 4'b1111; // SW
@@ -38,20 +38,29 @@ module data_mem_rv32i (
             default: wr_data_aligned = 32'b0;
         endcase
     end
-    
-    altsyncram #(
-        .operation_mode ("SINGLE_PORT"),
-        .width_a (32),
-        .widthad_a (8),
-        .outdata_reg_a ("UNREGISTERED"),
-        .init_file ("dmemory.mif"),
-        .width_byteena_a (4)
-        ) ram (
-        .clock0 (clock),
-        .wren_a (cu_store),
-        .address_a (waddr),
-        .data_a (wr_data_aligned), // tulis saat falling
-        .q_a (dmem_out), // baca saat rising
-        .byteena_a (be)
+
+    xpm_memory_spram #(
+        .ADDR_WIDTH_A        (8),         // 32 words / $clog2(32)
+        .MEMORY_SIZE         (32*256),     // bits
+        .READ_DATA_WIDTH_A   (32),
+        .WRITE_DATA_WIDTH_A  (32),
+        .BYTE_WRITE_WIDTH_A  (8),
+        .READ_LATENCY_A      (1),         // synchronous read (1 cycle)
+        .MEMORY_INIT_FILE    ("dmemory.mem"),
+        .MEMORY_PRIMITIVE    ("auto"),    // let Vivado choose BRAM/LUTRAM
+        .ECC_MODE            ("no_ecc")
+    ) ram (
+        .clka   (clock),
+        .wea    (be & {4{cu_store}})
+        .addra  (waddr),
+        .dina   (wr_data_aligned)
+        .ena    (1'b1),
+        .rsta   (1'b0),
+        .regcea (1'b1),
+        .douta  (dmem_out),
+        .injectsbiterra (1'b0),
+        .injectdbiterra (1'b0)
     );
+
+    
 endmodule
