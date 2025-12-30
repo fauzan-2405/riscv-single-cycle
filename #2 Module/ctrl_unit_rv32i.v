@@ -117,8 +117,10 @@ module ctrl_unit_rv32i (
                         cu_ALUtype <= 2'b11;
 
                     3'h3:   // SLTIU
+                    begin
                         cu_ALUtype <= 2'b11;
                         cu_sltype <= 1'b1;
+                    end
                     
                     3'h4:   // XORI
                         cu_ALUtype <= 2'b01;
@@ -133,12 +135,16 @@ module ctrl_unit_rv32i (
                     end
 
                     3'h6:   // ORI
+                    begin
                         cu_ALUtype <= 2'b01;
                         cu_gatype <= 2'b01;
+                    end
 
                     3'h7:   // ANDI
+                    begin
                         cu_ALUtype <= 2'b01;
                         cu_gatype <= 2'b10;
+                    end
                 endcase
             end
 
