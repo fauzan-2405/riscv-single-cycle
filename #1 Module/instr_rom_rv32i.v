@@ -1,5 +1,5 @@
 module instr_rom_rv32i (
-    input wire clock, 
+    input wire clk, 
     input wire [31:0] PC, 
     output wire [31:0] INSTR
 );

@@ -1,6 +1,6 @@
 
 module data_mem_rv32i (
-    input wire clock,
+    input wire clk,
     input wire cu_store, // WE dari CU
     input wire [1:0] cu_storetype, // 00=SB, 01=SH, 10=SW
     input wire [31:0] dmem_addr, // byte address

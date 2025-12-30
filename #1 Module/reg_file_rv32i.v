@@ -7,7 +7,7 @@
 // ============================================================
 
 module reg_file_rv32i (
-    input  wire        clock,       // global clock
+    input  wire        clk,       // global clock
     input  wire        cu_rdwrite,    // write enable from CU
     input  wire [4:0]  rs1_addr,      // read port 1 address
     input  wire [4:0]  rs2_addr,      // read port 2 address
