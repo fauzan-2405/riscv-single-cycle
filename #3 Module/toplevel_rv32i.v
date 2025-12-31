@@ -57,7 +57,7 @@ module toplevel_rv32i(
 
     brancher_rv32i blok_brancher(
         .PC_new(PC_new),
-        .PC_branch(PC_branch), // **WARNING** This a bit weird, based on the architecture, it must be PC_jump
+        .PC_branch(PC_branch), 
         .rs1(rs1),
         .rs2(rs2),
         .cu_branch(cu_branch_sig),
@@ -122,6 +122,10 @@ module toplevel_rv32i(
         .cu_jump        (cu_jump_sig)
     );
 
+    assign rs1_addr = instr[19:15];
+    assign rs2_addr = instr[24:20];
+    assign rd_addr  = instr[11:7];
+
     reg_file_rv32i blok_reg (
         .clk(clk),
         .cu_rdwrite(cu_rdwrite_sig),
@@ -156,14 +160,17 @@ module toplevel_rv32i(
 
     //---------------------------------EXECUTE---------------------------------//
     alu_rv32i blok_alu (
-        ,in1(ALU_in1),
+        .in1(ALU_in1),
         .in2(ALU_in2),
         .cu_ALUtype(cu_ALUtype_sig),
         .cu_adtype(cu_adtype_sig),
         .cu_gatype(cu_gatype_sig),
         .cu_shiftype(cu_shiftype_sig),
+        .cu_sltype(cu_sltype_sig),
         .out(ALU_output)
     );
+
+    assign dmem_addr = ALU_output;
 
     //------------------------------MEMORY ACCESS------------------------------//
     data_mem_rv32i blok_datamemory (
